@@ -27,18 +27,11 @@ class JWTAuthController extends Controller
      */
     public function register(Request $request)
     {
-        // $table->string('name');
-    // $table->string('email')->unique();
-    // $table->timestamp('email_verified_at')->nullable();
-    // $table->string('password');
-    // $table->string('number');
-    // $table->enum('gender',['L','P']);
-    // $table->string('photo_profile_url')->nullable();
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
             'email' => 'required|email|unique:users|max:50',
             'password' => 'required|confirmed|string|min:6',
-            'number' => 'required|numeric|min:11',
+            'phone_number' => 'required|string|min:11',
             'gender' => 'in:L,P'
         ]);
 
