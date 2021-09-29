@@ -25,4 +25,5 @@ Route::group([
     Route::get('profile', 'JWTAuthController@profile');
 });
 Route::get('categories','CategoryController@show');
+Route::get('categories/{slug}/populer','CategoryController@showPopuler');
 Route::post('addcategories','CategoryController@store');
