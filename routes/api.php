@@ -31,4 +31,5 @@ Route::post('carousel/upload','CategoryController@addcarousel');
 Route::get('carousel','CarouselController@index');
 Route::get('products','ProductController@allProduct');
 Route::get('products/{slug}','ProductController@getproducts');
+Route::get('products/{slug}/related','ProductController@getproductsrelated');
 Route::get('subcategories','SubCategoryController@index');

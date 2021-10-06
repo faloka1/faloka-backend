@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -15,15 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //$categories = $request->query('category');
-        //$categories = request()->fullUrlWithQuery([['category' => 'cewek']]);
-        $subcategories = Input::get('subcategory');
-        // $product = Product::with(['sub_categories' => function ($query) {
-        //     $query->where('slug', '=', 'kaos');
-        // }])->get();
-        
-        //$product = Product::with('sub_categories')->get();
-        return response()->json($product);
+        //
     }
 
     /**
@@ -69,7 +62,18 @@ class ProductController extends Controller
         return response()->json($product->first());
 
     }
+    public function getproductsrelated($productslug){
+        $category = Category::whereHas('products', function($q) use ($productslug) {
+            $q->where('slug',$productslug);
+        })->select('slug')->get()->toArray();
+        $product = Product::with('sub_categories','categories','brands','variants.variants_image')
+                   ->whereIn('categories', function($q) use ($category) {
+                        $q->whereIn('slug', $category);
+                    })->where('slug', '!=', $productslug);
+        $array = json_decode(json_encode($category), true);
+        return $array;
 
+    }
     /**
      * Display the specified resource.
      *
