@@ -24,6 +24,11 @@ Route::group([
     Route::post('refresh', 'JWTAuthController@refresh');
     Route::get('profile', 'JWTAuthController@profile');
 });
-Route::get('categories','CategoryController@show');
-Route::get('categories/{slug}/populer','CategoryController@showPopuler');
+Route::get('home','HomeController@index');
+Route::get('home/populer/{slug}','HomeController@showPopuler');
 Route::post('addcategories','CategoryController@store');
+Route::post('carousel/upload','CategoryController@addcarousel');
+Route::get('carousel','CarouselController@index');
+Route::get('products','ProductController@allProduct');
+Route::get('products/{slug}','ProductController@getproducts');
+Route::get('subcategories','SubCategoryController@index');
