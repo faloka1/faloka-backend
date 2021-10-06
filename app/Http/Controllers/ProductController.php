@@ -66,21 +66,11 @@ class ProductController extends Controller
         $category = Category::whereHas('products', function($q) use ($productslug) {
             $q->where('slug',$productslug);
         })->select('slug')->get()->toArray();
-
-        // $product = Category::with(['products' => function($q) use ($productslug){
-        //     $q->where('products.slug','!=',$productslug);
-        // }])->whereIn('slug',$category)->get();
         $product = Product::with('brands','variants.variants_image')
                     ->whereHas('categories',function($q) use ($category){
                         $q->whereIn('slug',$category);
                     })->where('slug','!=',$productslug)->get();
-        // $product = Product::with('sub_categories','categories','brands','variants.variants_image')
-        //            ->whereIn('categories', function($q) use ($category) {
-        //                 $q->whereIn('slug', $category);
-        //             })->where('slug', '!=', $productslug);
-        // $array = json_decode(json_encode($category), true);
         return $product;
-
     }
     /**
      * Display the specified resource.
