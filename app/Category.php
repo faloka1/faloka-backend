@@ -10,8 +10,15 @@ class Category extends Model
     protected $fillable = [
         'name'
     ];
-    
     public function sub_categories(){
-        return $this->belongsToMany(SubCategory::class, 'category_subcategory','category_id','subcategory_id');
+        return $this->belongsToMany(SubCategory::class)->withPivot('image_url');
+    }
+    public function carousels()
+    {
+        return $this->hasMany('App\Carousel');
+    }
+    public function products()
+    {
+        return $this->belongsToMany('App\Product');
     }
 }

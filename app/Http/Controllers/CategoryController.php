@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Carousel;
+use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use Storage;
 
 
 class CategoryController extends Controller
@@ -17,7 +20,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
@@ -54,7 +57,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return response()->json(Category::with('sub_categories')->take(-1)->get());
+    
     }
 
     /**
@@ -79,14 +82,24 @@ class CategoryController extends Controller
     {
         //
     }
-    public function showPopuler($slug){
-        $user = DB::table('category_subcategory')
-                ->join('categories', 'categories.id', '=', 'category_subcategory.category_id')
-                ->join('sub_categories', 'category_subcategory.subcategory_id', '=', 'sub_categories.id')
-                ->select('sub_categories.name','sub_categories.slug')
-                ->where('categories.slug',$slug)
-                ->limit(3)
-                ->get();
-        return response()->json(['sub_categories' => $user]);
+    public function addcarousel(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
+
+        if ($validator->fails()) {
+            return sendCustomResponse($validator->messages()->first(),  'error', 500);
+        }
+        $category = Category::find($request->input('id'));
+        $uploadFolder = 'carousels';
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
+        $carousel = new Carousel(['image' => '/storage/' . $image_uploaded_path]);
+
+        return response()->json([
+            'message' => 'Successfully Add Carousel',
+            'carousels' => $category->carousels()->save($carousel)
+        ], 201); 
     }
 }
