@@ -58,8 +58,13 @@ class ProductController extends Controller
     }
     public function getproducts($slug){
         $product = Product::with('sub_categories','categories','brands','variants.variants_image')
-                    ->where('slug',$slug);
-        return response()->json($product->first());
+                    ->where('slug',$slug)->first();
+        if (!$product) {
+            return response()->json(['error' => 'Product not found'], 404);
+        } else {
+            return response()->json($product);
+        }
+        
 
     }
     public function getproductsrelated($productslug){
@@ -70,7 +75,7 @@ class ProductController extends Controller
                     ->whereHas('categories',function($q) use ($category){
                         $q->whereIn('slug',$category);
                     })->where('slug','!=',$productslug)->get();
-        return $product;
+        return response()->json($product);
     }
     /**
      * Display the specified resource.
