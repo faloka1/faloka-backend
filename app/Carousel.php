@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Carousel extends Model
 {
     protected $fillable = [
-        'image','category_id'
+        'image_url','category_id'
     ];
 }
