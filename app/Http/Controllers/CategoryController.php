@@ -95,7 +95,7 @@ class CategoryController extends Controller
         $uploadFolder = 'carousels';
         $image = $request->file('image');
         $image_uploaded_path = $image->store($uploadFolder, 'public');
-        $carousel = new Carousel(['image' => '/storage/' . $image_uploaded_path]);
+        $carousel = new Carousel(['image_url' => '/storage/' . $image_uploaded_path]);
 
         return response()->json([
             'message' => 'Successfully Add Carousel',
