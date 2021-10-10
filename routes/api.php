@@ -34,3 +34,4 @@ Route::get('products','ProductController@allProduct');
 Route::get('products/{slug}','ProductController@getproducts');
 Route::get('products/{slug}/related','ProductController@getproductsrelated');
 Route::get('subcategories','SubCategoryController@index');
+Route::get('expeditions','ExpeditionController@index');
