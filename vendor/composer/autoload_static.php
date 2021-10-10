@@ -512,6 +512,7 @@ class ComposerStaticInit31ce2f7af8bd0bc15097860f95fc6a53
     );
 
     public static $classMap = array (
+        'App\\Address' => __DIR__ . '/../..' . '/app/Address.php',
         'App\\Brand' => __DIR__ . '/../..' . '/app/Brand.php',
         'App\\Carousel' => __DIR__ . '/../..' . '/app/Carousel.php',
         'App\\Category' => __DIR__ . '/../..' . '/app/Category.php',
@@ -526,6 +527,7 @@ class ComposerStaticInit31ce2f7af8bd0bc15097860f95fc6a53
         'App\\Http\\Controllers\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductController.php',
         'App\\Http\\Controllers\\SubCategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/SubCategoryController.php',
         'App\\Http\\Controllers\\VariantController' => __DIR__ . '/../..' . '/app/Http/Controllers/VariantController.php',
+        'App\\Http\\Controllers\\VariantImageController' => __DIR__ . '/../..' . '/app/Http/Controllers/VariantImageController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
         'App\\Http\\Middleware\\Authenticate' => __DIR__ . '/../..' . '/app/Http/Middleware/Authenticate.php',
         'App\\Http\\Middleware\\CheckForMaintenanceMode' => __DIR__ . '/../..' . '/app/Http/Middleware/CheckForMaintenanceMode.php',

@@ -76,7 +76,7 @@ class JWTAuthController extends Controller
      */
     public function profile()
     {
-        return response()->json(auth()->user());
+        return response()->json(User::with('adresses')->find(auth()->user()));
     }
 
     /**
@@ -99,6 +99,10 @@ class JWTAuthController extends Controller
     public function refresh()
     {
         return $this->createNewToken(auth()->refresh());
+    }
+
+    public function addaddress(Request $request){
+
     }
 
     /**
