@@ -22,7 +22,8 @@ Route::group([
     Route::post('login', 'JWTAuthController@login');
     Route::post('logout', 'JWTAuthController@logout');
     Route::post('refresh', 'JWTAuthController@refresh');
-    Route::get('profile', 'JWTAuthController@profile');
+    Route::get('profile', 'AddressController@index');
+    Route::post('address', 'AddressController@store');
 });
 Route::get('home','HomeController@index');
 Route::get('home/populer/{slug}','HomeController@showPopuler');

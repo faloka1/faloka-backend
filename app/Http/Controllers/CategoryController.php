@@ -89,7 +89,8 @@ class CategoryController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return sendCustomResponse($validator->messages()->first(),  'error', 500);
+            //return sendCustomResponse($validator->messages()->first(),  'error', 500);
+            return response()->json(['error' => 'error'], 500);
         }
         $category = Category::find($request->input('id'));
         $uploadFolder = 'carousels';
