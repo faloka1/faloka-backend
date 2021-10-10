@@ -15,7 +15,7 @@ class AddressController extends Controller
      */
     public function index()
     {
-        return response()->json(User::with('addresses')->find(auth()->user()));
+        return response()->json(User::with('addresses')->find(auth()->user())->first());
     }
 
     /**
