@@ -43,12 +43,6 @@ class AddressController extends Controller
         }
     }
 
-    protected $fillable = [
-        'name','phone_number','province',
-        'district','sub_district','postal_code',
-        'location'
-    ];
-
     /**
      * Display the specified resource.
      *
@@ -67,9 +61,33 @@ class AddressController extends Controller
      * @param  \App\Address  $address
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Address $address)
+    public function update(Request $request, $addressId)
     {
-        //
+        $address = Address::find($addressId);
+        if ($request->name != null)
+            $address->name = $request->name;
+
+        if ($request->phone_number != null)
+            $address->phone_number = $request->phone_number;
+        
+        if ($request->province != null)
+            $address->province = $request->province;
+
+        if ($request->district != null)
+            $address->district = $request->district;
+
+        if ($request->sub_district != null)
+            $address->sub_district = $request->sub_district;
+
+        if ($request->postal_code != null)
+            $address->postal_code = $request->postal_code;
+
+        if ($request->location != null)
+            $address->location = $request->location;
+
+        if ($address->save()) {
+            return response()->json([ 'message' => "Data Successfully Updated"]);
+        }
     }
 
     /**
@@ -78,8 +96,12 @@ class AddressController extends Controller
      * @param  \App\Address  $address
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Address $address)
+    public function destroy($addressId)
     {
-        $address->users()->detach($user);
+        $address = Address::find($addressId);
+        $address->users()->detach();
+        if ($address->delete()) {
+            return response()->json(['message' => "Data Successfully Deleted"]);
+        }
     }
 }

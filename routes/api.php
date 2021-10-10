@@ -24,6 +24,8 @@ Route::group([
     Route::post('refresh', 'JWTAuthController@refresh');
     Route::get('profile', 'AddressController@index');
     Route::post('address', 'AddressController@store');
+    Route::delete('/address/{id}', 'AddressController@destroy');
+    Route::put('/address/{id}', 'AddressController@update');
 });
 Route::get('home','HomeController@index');
 Route::get('home/populer/{slug}','HomeController@showPopuler');
