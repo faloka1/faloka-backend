@@ -144,8 +144,8 @@ class AddressController extends Controller
         echo "cURL Error #:" . $err;
         } else {
             $response=json_decode($response,true);
-            $data_ongkir = $response['rajaongkir']['results'];
-            return json_encode($data_ongkir);
+            $data_province = $response['rajaongkir']['results'];
+            return response()->json($data_province);
         }
     }
     public function getcity(Request $request){
@@ -188,8 +188,8 @@ class AddressController extends Controller
         echo "CURL Error #:" . $err;
         } else {
             $response=json_decode($response,true);
-            $data_ongkir = $response['rajaongkir']['results'];
-            return json_encode($data_ongkir);
+            $data_city = $response['rajaongkir']['results'];
+            return response()->json($data_city);
         }
     }
     public function get_ongkir(Request $request){
@@ -220,7 +220,7 @@ class AddressController extends Controller
         } else {
             $response=json_decode($response,true);
             $data_ongkir = $response['rajaongkir']['results'];
-            return json_encode($data_ongkir);
+            return response()->json($data_ongkir);
         }
     }
 }
