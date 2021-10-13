@@ -10,8 +10,8 @@ class AddressController extends Controller
 {
     public function index()
     {
-        return response()->json(User::with('addresses.districts','addresses.provinces')->get());
-        //return response()->json(User::with('addresses')->find(auth()->user())->first());
+        return response()->json(User::with('addresses.districts','addresses.provinces')->find(auth()->user())->first());
+        //return response()->json(User::with('addresses'));
     }
 
     public function store(Request $request)
