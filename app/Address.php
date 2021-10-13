@@ -16,4 +16,12 @@ class Address extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function districts()
+    {
+        return $this->hasOne('App\District','district_id','district_id');
+    }
+    public function provinces()
+    {
+        return $this->hasOne(Province::class, 'province_id','province_id');
+    }
 }
