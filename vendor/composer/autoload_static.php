@@ -524,6 +524,7 @@ class ComposerStaticInit31ce2f7af8bd0bc15097860f95fc6a53
         'App\\Http\\Controllers\\CarouselController' => __DIR__ . '/../..' . '/app/Http/Controllers/CarouselController.php',
         'App\\Http\\Controllers\\CategoryController' => __DIR__ . '/../..' . '/app/Http/Controllers/CategoryController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\ExpeditionController' => __DIR__ . '/../..' . '/app/Http/Controllers/ExpeditionController.php',
         'App\\Http\\Controllers\\HomeController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomeController.php',
         'App\\Http\\Controllers\\JWTAuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/JWTAuthController.php',
         'App\\Http\\Controllers\\ProductController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProductController.php',

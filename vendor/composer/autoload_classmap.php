@@ -18,6 +18,7 @@ return array(
     'App\\Http\\Controllers\\CarouselController' => $baseDir . '/app/Http/Controllers/CarouselController.php',
     'App\\Http\\Controllers\\CategoryController' => $baseDir . '/app/Http/Controllers/CategoryController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',
+    'App\\Http\\Controllers\\ExpeditionController' => $baseDir . '/app/Http/Controllers/ExpeditionController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\JWTAuthController' => $baseDir . '/app/Http/Controllers/JWTAuthController.php',
     'App\\Http\\Controllers\\ProductController' => $baseDir . '/app/Http/Controllers/ProductController.php',
