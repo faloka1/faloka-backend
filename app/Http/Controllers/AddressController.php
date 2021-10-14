@@ -11,7 +11,6 @@ class AddressController extends Controller
     public function index()
     {
         return response()->json(User::with('addresses.districts','addresses.provinces')->find(auth()->user())->first());
-        //return response()->json(User::with('addresses'));
     }
 
     public function store(Request $request)
@@ -24,10 +23,12 @@ class AddressController extends Controller
         $address->postal_code = $request->postal_code;
         $address->location = $request->location;
 
-
         if ($address->save()) {
             $address->users()->attach($user);
-            return response()->json(['message' => "Data Address Successfully Added"]);
+            return response()->json([
+                'message' => 'Data Address Successfully Added',
+                'addresses' => Address::with('districts','provinces')->find($address->id)
+            ], 201);
         }
     }
 
@@ -71,50 +72,53 @@ class AddressController extends Controller
             return response()->json(['message' => "Data Successfully Deleted"]);
         }
     }
-    public function getprovince(Request $request){
-        $curl = curl_init();
-        if($request->has('id')){
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.rajaongkir.com/starter/province?id=". $request->id,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => array(
-                    "key: e5db299c04fb4d8973493378607f48ef"
-                ),
-                ));
-        } else {
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => "GET",
-                CURLOPT_HTTPHEADER => array(
-                    "key: e5db299c04fb4d8973493378607f48ef"
-                ),
-                ));
-        }
+    // public function getprovince(Request $request){
+        
+    // }
+    // public function getprovince(Request $request){
+    //     $curl = curl_init();
+    //     if($request->has('id')){
+    //         curl_setopt_array($curl, array(
+    //             CURLOPT_URL => "https://api.rajaongkir.com/starter/province?id=". $request->id,
+    //             CURLOPT_RETURNTRANSFER => true,
+    //             CURLOPT_ENCODING => "",
+    //             CURLOPT_MAXREDIRS => 10,
+    //             CURLOPT_TIMEOUT => 30,
+    //             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //             CURLOPT_CUSTOMREQUEST => "GET",
+    //             CURLOPT_HTTPHEADER => array(
+    //                 "key: e5db299c04fb4d8973493378607f48ef"
+    //             ),
+    //             ));
+    //     } else {
+    //         curl_setopt_array($curl, array(
+    //             CURLOPT_URL => "https://api.rajaongkir.com/starter/province",
+    //             CURLOPT_RETURNTRANSFER => true,
+    //             CURLOPT_ENCODING => "",
+    //             CURLOPT_MAXREDIRS => 10,
+    //             CURLOPT_TIMEOUT => 30,
+    //             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    //             CURLOPT_CUSTOMREQUEST => "GET",
+    //             CURLOPT_HTTPHEADER => array(
+    //                 "key: e5db299c04fb4d8973493378607f48ef"
+    //             ),
+    //             ));
+    //     }
         
 
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
+    //     $response = curl_exec($curl);
+    //     $err = curl_error($curl);
 
-        curl_close($curl);
+    //     curl_close($curl);
 
-        if ($err) {
-        echo "cURL Error #:" . $err;
-        } else {
-            $response=json_decode($response,true);
-            $data_province = $response['rajaongkir']['results'];
-            return response()->json($data_province);
-        }
-    }
+    //     if ($err) {
+    //     echo "cURL Error #:" . $err;
+    //     } else {
+    //         $response=json_decode($response,true);
+    //         $data_province = $response['rajaongkir']['results'];
+    //         return response()->json($data_province);
+    //     }
+    // }
     public function getcity(Request $request){
         $curl = curl_init();
         
