@@ -55,8 +55,12 @@ class AddressController extends Controller
             $address->location = $request->location;
 
         if ($address->save()) {
-            return response()->json([ 'message' => "Data Successfully Updated"]);
+            return response()->json([
+                'message' => 'Data Successfully Updated',
+                'addresses' => $address
+            ], 201);
         }
+         
     }
 
     public function destroy($addressId)
