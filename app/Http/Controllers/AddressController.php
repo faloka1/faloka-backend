@@ -18,10 +18,8 @@ class AddressController extends Controller
     {
         $user = auth()->user();
         $address = new Address;
-        $address->name = $request->name;
-        $address->phone_number = $request->phone_number;
-        $address->province = $request->province;
-        $address->district = $request->district;
+        $address->province_id = $request->province_id;
+        $address->district_id = $request->district_id;
         $address->sub_district = $request->sub_district;
         $address->postal_code = $request->postal_code;
         $address->location = $request->location;
@@ -41,18 +39,12 @@ class AddressController extends Controller
     public function update(Request $request, $addressId)
     {
         $address = Address::find($addressId);
-        if ($request->name != null)
-            $address->name = $request->name;
+        if ($request->province_id != null)
+            $address->province_id = $request->province_id;
 
-        if ($request->phone_number != null)
-            $address->phone_number = $request->phone_number;
-        
-        if ($request->province != null)
-            $address->province = $request->province;
-
-        if ($request->district != null)
-            $address->district = $request->district;
-
+        if ($request->district_id != null)
+            $address->district_id = $request->district_id;
+    
         if ($request->sub_district != null)
             $address->sub_district = $request->sub_district;
 
