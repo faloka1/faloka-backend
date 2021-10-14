@@ -57,7 +57,7 @@ class AddressController extends Controller
         if ($address->save()) {
             return response()->json([
                 'message' => 'Data Successfully Updated',
-                'addresses' => $address
+                'addresses' => Address::with('districts','provinces')->find($addressId)
             ], 201);
         }
          
