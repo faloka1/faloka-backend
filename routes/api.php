@@ -41,5 +41,6 @@ Route::get('products/{slug}/related','ProductController@getproductsrelated');
 Route::get('subcategories','SubCategoryController@index');
 Route::get('expeditions','ExpeditionController@index');
 Route::get('province','AddressController@getprovince');
-Route::get('city','AddressController@getcity');
+Route::get('district','AddressController@getdistrict');
 Route::get('ongkir','AddressController@get_ongkir');
+Route::get('payment','PaymentController@index');
