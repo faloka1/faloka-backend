@@ -29,6 +29,8 @@ Route::group([
     Route::post('user/address', 'AddressController@store');
     Route::delete('user/address/{id}', 'AddressController@destroy');
     Route::put('user/address/{id}', 'AddressController@update');
+
+    Route::post('checkout', 'OrderController@store');
 });
 Route::get('home','HomeController@index');
 Route::get('home/populer/{slug}','HomeController@showPopuler');
