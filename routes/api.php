@@ -31,6 +31,7 @@ Route::group([
     Route::put('user/address/{id}', 'AddressController@update');
 
     Route::post('checkout', 'OrderController@store');
+    Route::get('user/orders', 'OrderController@getorder');
 });
 Route::get('home','HomeController@index');
 Route::get('home/populer/{slug}','HomeController@showPopuler');
@@ -46,3 +47,4 @@ Route::get('province','AddressController@getprovince');
 Route::get('district','AddressController@getdistrict');
 Route::get('ongkir','AddressController@get_ongkir');
 Route::get('payment','PaymentController@index');
+Route::patch('uploadpayment/{id}', 'OrderController@uploadImage');
