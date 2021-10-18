@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use App\Order;
+use Storage;
+use Response;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -23,10 +26,36 @@ class OrderController extends Controller
             $orderDetail = $orderDetailController->store(
                 $request->quantity,$order->id,$request->variant_id
             );
-            return response()->json([ 'message' => "Data Successfully Added"]);
+            return Response::json(array('message' => "Data Successfully Added", 'order_id' => $order->id), 200);
         }else {
             return response()->json([ 'message' => "Failed"]);
-        }
+        }       
+    }
+    public function uploadImage(Request $request,$id){
+        $validator = Validator::make($request->all(), [
+            'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048'
+        ]);
         
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'error', 'message'=> $validator->messages()->first(),$request->all()
+            ], 500);
+        }
+        $uploadFolder = 'payments';
+        $image = $request->file('image');
+        $image_uploaded_path = $image->store($uploadFolder, 'public');
+        $order = Order::where("id",$id)->update([
+            'image_payment_url' => '/storage/' . $image_uploaded_path,
+            'status' => "dikirim"
+        ]);
+        if ($order){
+            return response()->json(['message' => "Data Successfully Updated"]);
+        } else {
+            return response()->json(['message' => "Failed"]);
+        }
+    }
+    public function getorder(){
+        $order = Order::with('orderdetail.variant.products','address','payment')->where('user_id',Auth::user()->id)->first();
+        return response()->json($order);
     }
 }

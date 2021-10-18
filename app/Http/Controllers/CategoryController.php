@@ -87,10 +87,11 @@ class CategoryController extends Controller
         $validator = Validator::make($request->all(), [
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048'
         ]);
-
+        
         if ($validator->fails()) {
-            //return sendCustomResponse($validator->messages()->first(),  'error', 500);
-            return response()->json(['error' => 'error'], 500);
+            return response()->json([
+                'status' => 'error', 'message'=> $validator->messages()->first(),$request->all()
+            ], 500);
         }
         $category = Category::find($request->input('id'));
         $uploadFolder = 'carousels';
