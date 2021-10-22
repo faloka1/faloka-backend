@@ -10,6 +10,9 @@ class OrderDetail extends Model
         'quantity','order_id','variant_id'
     ];
     public function variants(){
-        return $this->belongsTo('App\Variant');
+        return $this->belongsTo('App\Variant','variant_id');
+    }
+    public function products(){
+        return $this->belongsTo('App\Product','product_id');
     }
 }
