@@ -55,7 +55,7 @@ class OrderController extends Controller
         }
     }
     public function getorder(){
-        $order = Order::with('order_details.variants.products','address','payment')->where('user_id',Auth::user()->id)->first();
+        $order = Order::with('order_details.variants','order_details.products','address','payment')->where('user_id',Auth::user()->id)->get();
         return response()->json($order);
     }
 }
