@@ -17,7 +17,7 @@ class Order extends Model
     public function payment(){
         return $this->belongsTo('App\Payment');
     }
-    public function orderdetail(){
+    public function order_details(){
         return $this->hasMany('App\OrderDetail');
     }
 }
