@@ -9,7 +9,7 @@ class OrderDetail extends Model
     protected $fillable = [
         'quantity','order_id','variant_id'
     ];
-    public function variant(){
+    public function variants(){
         return $this->belongsTo('App\Variant');
     }
 }

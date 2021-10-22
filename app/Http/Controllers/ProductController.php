@@ -48,13 +48,18 @@ class ProductController extends Controller
             $product->whereHas('categories', function($categories) use($category) {
                 $categories->where('slug', '=', $category);
             });
+            $category = Category::where('slug', '=', $category)->get();
         }
         if($request->has('subcategory')){
             $product->whereHas('sub_categories', function($subcategories) use($subcategory) {
                 $subcategories->where('slug', '=', $subcategory);
             });
         }
-        return response()->json($product->get());
+        return response()->json([
+            "category" => $category,
+            "product" => $product->get(),
+            "count" => $product->get()->count()
+        ]);
     }
     public function getproducts($slug){
         $product = Product::with('sub_categories','categories','brands','variants.variants_image')
