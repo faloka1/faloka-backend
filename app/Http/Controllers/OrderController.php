@@ -58,7 +58,7 @@ class OrderController extends Controller
         $status = $request->status;
         $order = Order::with('order_details.variants.variants_image','order_details.products.brands','address','payment')->where('user_id',Auth::user()->id);
         if($request->has('status')){
-            $order = Order::where('status', '=', $status);
+            $order->where('status', '=', $status);
         }
         
         return response()->json($order->get());
