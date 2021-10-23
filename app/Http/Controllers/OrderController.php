@@ -54,8 +54,13 @@ class OrderController extends Controller
             return response()->json(['message' => "Failed"]);
         }
     }
-    public function getorder(){
-        $order = Order::with('order_details.variants','order_details.products','address','payment')->where('user_id',Auth::user()->id)->get();
-        return response()->json($order);
+    public function getorder(Request $request){
+        $status = $request->status;
+        $order = Order::with('order_details.variants','order_details.products','address','payment')->where('user_id',Auth::user()->id);
+        if($request->has('status')){
+            $order = Order::where('status', '=', $status);
+        }
+        
+        return response()->json($order->get());
     }
 }
