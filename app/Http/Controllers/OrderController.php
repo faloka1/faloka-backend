@@ -56,9 +56,10 @@ class OrderController extends Controller
     }
     public function getorder(Request $request){
         $status = $request->status;
-        $order = Order::with('order_details.variants','order_details.products','address','payment')->where('user_id',Auth::user()->id);
+        $order = Order::with('order_details.variants','order_details.products','address','payment')
+                ->where('user_id',Auth::user()->id);
         if($request->has('status')){
-            $order = Order::where('status', '=', $status);
+            $order->where('status', '=', $status);
         }
         
         return response()->json($order->get());
