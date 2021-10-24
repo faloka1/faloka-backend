@@ -48,3 +48,5 @@ Route::get('district','AddressController@getdistrict');
 Route::get('ongkir','AddressController@get_ongkir');
 Route::get('payment','PaymentController@index');
 Route::patch('uploadpayment/{id}', 'OrderController@uploadImage');
+
+Route::get('mix-and-match/items/{slug}','ProductController@getMixAndMatch');
