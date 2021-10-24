@@ -24,7 +24,7 @@ class OrderController extends Controller
         $order->address_id = $request->address_id;
         if ($order->save()){
             $orderDetail = $orderDetailController->store(
-                $request->quantity,$order->id,$request->variant_id
+                $request->quantity,$order->id,$request->variant_id,$request->product_id
             );
             return Response::json(array('message' => "Data Successfully Added", 'order_id' => $order->id), 200);
         }else {
