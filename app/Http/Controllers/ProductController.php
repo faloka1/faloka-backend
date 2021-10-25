@@ -82,15 +82,18 @@ class ProductController extends Controller
                     })->where('slug','!=',$productslug)->get();
         return response()->json($product);
     }
-    public function getMixAndMatch($slug){
-        $product = Product::select('slug','mix_and_match_image')
-                    ->whereHas('categories',function($q) use ($slug){
-                            $q->where('slug',$slug);
-                    })->get();
+    public function getMixAndMatch(Request $request){
+        $category = $request->category;
+        $product = Product::select('slug','mix_and_match_image');
+        if($request->has('category')){
+            $product->whereHas('categories',function($q) use ($category){
+                $q->where('slug',$category);
+            });
+        }
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         } else {
-            return response()->json($product);
+            return response()->json($product->get());
         }
     }
 }
