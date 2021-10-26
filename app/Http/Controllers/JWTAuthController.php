@@ -25,15 +25,26 @@ class JWTAuthController extends Controller
             'gender' => 'in:L,P'
         ]);
 
-        $user = User::create(array_merge(
-                    $validator->validated(),
-                    ['password' => bcrypt($request->password)]
-                ));
+        
 
-        return response()->json([
-            'message' => 'Successfully registered',
-            'user' => $user
-        ], 201);
+        if($validator->fails()){
+            $failedRules = $validator->failed();
+
+            if(isset($failedRules['email']['Unique'])) {
+                return response()->json([
+                    'Error' => "Email is Unique"
+                ]);
+            }
+        } else {
+            $user = User::create(array_merge(
+                $validator->validated(),
+                ['password' => bcrypt($request->password)]
+            ));
+            return response()->json([
+                'message' => 'Successfully registered',
+                'user' => $user
+            ], 201);
+        } 
     }
 
     public function login(Request $request)
