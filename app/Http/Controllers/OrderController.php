@@ -65,6 +65,6 @@ class OrderController extends Controller
             $order->where('status', '=', $status);
         }
         
-        return response()->json($order->get());
+        return response()->json($order->orderBy('id', 'DESC')->get());
     }
 }
