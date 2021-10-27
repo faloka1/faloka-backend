@@ -19,32 +19,29 @@ class JWTAuthController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|between:2,100',
+            'gender' => 'in:L,P',
             'email' => 'required|email|unique:users|max:50',
-            'password' => 'required|confirmed|string|min:6',
             'phone_number' => 'required|string|min:11',
-            'gender' => 'in:L,P'
+            'password' => 'required|confirmed|string|min:6',
         ]);
 
-        
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()], 422);            
+        }
 
-        if($validator->fails()){
-            $failedRules = $validator->failed();
-
-            if(isset($failedRules['email']['Unique'])) {
-                return response()->json([
-                    'Error' => "Email is Unique"
-                ]);
-            }
-        } else {
-            $user = User::create(array_merge(
-                $validator->validated(),
-                ['password' => bcrypt($request->password)]
-            ));
+        $user = User::create(array_merge(
+            $validator->validated(),
+            ['password' => bcrypt($request->password)]
+        ));
+        if(!$user){
             return response()->json([
-                'message' => 'Successfully registered',
-                'user' => $user
-            ], 201);
-        } 
+                'message' => 'Something went wrong',
+            ], 500); 
+        }
+        return response()->json([
+            'message' => 'Successfully registered',
+            'user' => $user
+        ], 201);
     }
 
     public function login(Request $request)
