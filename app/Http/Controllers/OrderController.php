@@ -46,7 +46,7 @@ class OrderController extends Controller
         $image_uploaded_path = $image->store($uploadFolder, 'public');
         $order = Order::where("id",$id)->update([
             'image_payment_url' => '/storage/' . $image_uploaded_path,
-            'status' => "dikirim"
+            'status' => "pending"
         ]);
         if ($order){
             return response()->json(['message' => "Data Successfully Updated"]);
