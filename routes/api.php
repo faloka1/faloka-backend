@@ -50,3 +50,6 @@ Route::get('payment','PaymentController@index');
 Route::patch('uploadpayment/{id}', 'OrderController@uploadImage');
 
 Route::get('mix-and-match/items','ProductController@getMixAndMatch');
+
+Route::get('cart','CartController@index');
+Route::post('cart','CartController@store');
