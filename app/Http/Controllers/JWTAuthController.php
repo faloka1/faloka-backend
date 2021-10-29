@@ -21,12 +21,14 @@ class JWTAuthController extends Controller
             'name' => 'required|between:2,100',
             'gender' => 'in:L,P',
             'email' => 'required|email|unique:users|max:50',
-            'phone_number' => 'required|string|min:11',
+            'phone_number' => 'required|numeric|min:7',
             'password' => 'required|confirmed|string|min:6',
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['error'=>$validator->errors()], 422);            
+            return response()->json([
+                "error" => $validator->errors()
+            ], 422);            
         }
 
         $user = User::create(array_merge(
