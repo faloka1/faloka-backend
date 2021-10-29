@@ -17,8 +17,14 @@ class CartController extends Controller
     {
         $cart = Cart::with(
             'variants',
-            'products.brands')->get();
-        return response()->json($cart);
+            'products.brands');
+        if(!Auth::User()) {
+            return response()->json([
+                "error" => "User No Found"
+            ]);
+        }
+        $cart->where('user_id',Auth::user()->id);
+        return response()->json($cart->get());
     }
 
     /**
