@@ -17,7 +17,7 @@ class CartController extends Controller
     public function index()
     {
         $cart = Cart::with(
-            'variants',
+            'variants.variants_image',
             'products.brands');
         if(!Auth::User()) {
             return response()->json([
@@ -50,9 +50,6 @@ class CartController extends Controller
                 "error" => "User No Found"
             ]);
         }
-        // return response()->json([
-        //     "error" => "Bener"
-        // ]);
         $cart->user_id = Auth::User()->id;
         if($cart->save()){
             return response()->json([
