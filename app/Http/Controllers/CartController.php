@@ -117,9 +117,15 @@ class CartController extends Controller
             return response()->json(['message' => "Cart was not Deleted, Try Again!"]);
         }
     }
-    public function destroybyuser($userid){
+    public function destroybyuser(){
+        if(!Auth::User()) {
+            return response()->json([
+                "error" => "User No Found"
+            ]);
+        }
+        $userID = Auth::user()->id;
         try {
-            $cart = Cart::where('user_id',$userid);
+            $cart = Cart::where('user_id',$userID);
         } catch(\Exception $e){
             return response()->json(["Error" => "Cart Not Found"]);
         }

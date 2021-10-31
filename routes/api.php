@@ -54,5 +54,5 @@ Route::get('mix-and-match/items','ProductController@getMixAndMatch');
 Route::get('cart','CartController@index');
 Route::post('cart','CartController@store');
 Route::delete('cart/{id}', 'CartController@destroy');
-Route::delete('cart/{userid}/user', 'CartController@destroybyuser');
+Route::delete('cart-user', 'CartController@destroybyuser');
 Route::patch('cart/{id}', 'CartController@update');
