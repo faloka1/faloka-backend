@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Exception;
 
 class CartController extends Controller
 {
@@ -23,8 +24,13 @@ class CartController extends Controller
                 "error" => "User No Found"
             ]);
         }
-        $cart->where('user_id',Auth::user()->id);
-        return response()->json($cart->get());
+        $cart = $cart->where('user_id',Auth::user()->id)->get();
+        if($cart->count() == 0){
+            return response()->json([
+                "massage" => "Cart Not Found"
+            ]);
+        }
+        return response()->json($cart);
     }
 
     /**
@@ -75,9 +81,20 @@ class CartController extends Controller
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Cart $cart)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $cart = Cart::findOrFail($id);
+        } catch(\Exception $e){
+            return response()->json(["Error" => "Cart Not Found"]);
+        }
+        $cart->quantity = $request->quantity;
+        $result = $cart->save();
+        if($result){
+            return response()->json(['message' => "Quantity Successfully Updated"], 200);
+        } else {
+            return response()->json(['message' => "Quantity was not Updated, Try Again!"]);
+        }
     }
 
     /**
@@ -86,8 +103,31 @@ class CartController extends Controller
      * @param  \App\Cart  $cart
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Cart $cart)
+    public function destroy($id)
     {
-        //
+        try {
+            $cart = Cart::findOrFail($id);
+        } catch(\Exception $e){
+            return response()->json(["Error" => "Cart Not Found"]);
+        }
+        $result = $cart->delete();
+        if($result){
+            return response()->json(['message' => "Data Cart Successfully Deleted"]);
+        } else {
+            return response()->json(['message' => "Cart was not Deleted, Try Again!"]);
+        }
+    }
+    public function destroybyuser($userid){
+        try {
+            $cart = Cart::where('user_id',$userid);
+        } catch(\Exception $e){
+            return response()->json(["Error" => "Cart Not Found"]);
+        }
+        $result = $cart->delete();
+        if($result){
+            return response()->json(['message' => "Data Cart Successfully Deleted"]);
+        } else {
+            return response()->json(['message' => "Cart was not Deleted, Try Again!"]);
+        }
     }
 }
