@@ -96,4 +96,10 @@ class ProductController extends Controller
             return response()->json($product->get());
         }
     }
+    public function cartrelated(){
+        $product = Product::with('sub_categories','categories','brands','variants.variants_image')
+                    ->inRandomOrder()
+                    ->limit(5);
+        return response()->json($product->get());
+    }
 }

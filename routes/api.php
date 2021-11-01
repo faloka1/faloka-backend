@@ -57,6 +57,7 @@ Route::patch('uploadpayment/{id}', 'OrderController@uploadImage');
 Route::get('mix-and-match/items','ProductController@getMixAndMatch');
 
 Route::get('cart','CartController@index');
+Route::get('cart-related','ProductController@cartrelated');
 Route::post('cart','CartController@store');
 Route::delete('cart/{id}', 'CartController@destroy');
 Route::delete('cart-user', 'CartController@destroybyuser');
