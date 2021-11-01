@@ -23,9 +23,15 @@ class OrderController extends Controller
         $order->user_id = Auth::User()->id;
         $order->address_id = $request->address_id;
         if ($order->save()){
-            $orderDetail = $orderDetailController->store(
-                $request->quantity,$order->id,$request->variant_id,$request->product_id
-            );
+            $data = $request->orderDetails;
+            foreach($datas as $data){
+                $data[] = array(
+                    
+                );
+                // $orderDetail = $orderDetailController->store(
+                //     $orderdetail->quantity,$order->id,$orderdetail->variant_id,$orderdetail->product_id
+                // );
+            }
             return Response::json(array('message' => "Data Successfully Added", 'order_id' => $order->id), 200);
         }else {
             return response()->json([ 'message' => "Failed"]);
