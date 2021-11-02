@@ -53,7 +53,8 @@ class CartController extends Controller
         $cart->user_id = Auth::User()->id;
         if($cart->save()){
             return response()->json([
-                "message" => "Data Successfully Added"
+                "message" => "Data Successfully Added",
+                'cart_id' => $cart->id
             ]);
         } else {
             return response()->json([ 'message' => "Failed"]);
