@@ -48,7 +48,7 @@ class CartController extends Controller
         if(!Auth::User()) {
             return response()->json([
                 "error" => "User No Found"
-            ]);
+            ],401);
         }
         $cart->user_id = Auth::User()->id;
         if($cart->save()){

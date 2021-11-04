@@ -16,18 +16,23 @@ class OrderController extends Controller
     {
         $order = new Order();
         $orderDetailController = new OrderDetailController();
-        $order->shipping_price = $request->shipping_price;
-        $order->expedition_name = $request->expedition_name;
-        $order->service = $request->service;
         $order->payment_id = $request->payment_id;
         $order->user_id = Auth::User()->id;
         $order->address_id = $request->address_id;
         if ($order->save()){
-            $datas = $request->orderDetails;
+            $datas = $request->order_details;
             foreach($datas as $data){
-                $orderDetail = $orderDetailController->store(
-                    $data['quantity'],$order->id,$data['variant_id'],$data['product_id']
-                );
+                $items = $data['items'];
+                $shipping_price = $data['shipping_price'];
+                $expedition_name = $data['expedition_name'];
+                $service = $data['service'];
+                foreach($items as $item){
+                    $orderDetail = $orderDetailController->store(
+                        $item['quantity'],$order->id,$shipping_price,$expedition_name,
+                        $service,$item['variant_id'],$item['product_id']
+                    );
+                }
+                break;
             }
             return Response::json(array('message' => "Data Successfully Added", 'order_id' => $order->id), 200);
         }else {
