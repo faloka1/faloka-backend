@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Order;
+use App\OrderDetail;
+use App\Shipping;
+use App\OrderBrand;
 use Storage;
 use Response;
 
@@ -15,24 +18,32 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $order = new Order();
-        $orderDetailController = new OrderDetailController();
         $order->payment_id = $request->payment_id;
         $order->user_id = Auth::User()->id;
         $order->address_id = $request->address_id;
         if ($order->save()){
-            $datas = $request->order_details;
+            $datas = $request->order_brands;
             foreach($datas as $data){
+                $shipping = new Shipping();
+                $shipping->shipping_price = $data['shipping_price'];
+                $shipping->expedition_name = $data['expedition_name'];
+                $shipping->service = $data['service'];
+                $shipping->save();
+                $brand = new OrderBrand();
+                $brand->order_id = $order->id;
+                $brand->brand_id = $data['brand_id'];;
+                $brand->shipping_id = $shipping->id;
+                $brand->save();
                 $items = $data['items'];
-                $shipping_price = $data['shipping_price'];
-                $expedition_name = $data['expedition_name'];
-                $service = $data['service'];
                 foreach($items as $item){
-                    $orderDetail = $orderDetailController->store(
-                        $item['quantity'],$order->id,$shipping_price,$expedition_name,
-                        $service,$item['variant_id'],$item['product_id']
-                    );
+                    $orderDetail = new OrderDetail();
+                    $orderDetail->quantity = $item['quantity'];
+                    $orderDetail->order_id = $order->id;
+                    $orderDetail->order_brand_id = $brand->id;
+                    $orderDetail->variant_id = $item['variant_id'];
+                    $orderDetail->product_id = $item['product_id'];
+                    $orderDetail->save();
                 }
-                break;
             }
             return Response::json(array('message' => "Data Successfully Added", 'order_id' => $order->id), 200);
         }else {
@@ -65,14 +76,14 @@ class OrderController extends Controller
     public function getorder(Request $request){
         $status = $request->status;
         $order = Order::with(
-            'order_details.variants.variants_image',
-            'order_details.products.brands',
+            'order_brands.shipping',
+            'order_brands.order_details',
             'address.districts','address.provinces',
             'payment')->where('user_id',Auth::user()->id);
         if($request->has('status')){
             $order->where('status', '=', $status);
         }
-        
+
         return response()->json($order->orderBy('id', 'DESC')->get());
     }
 }
