@@ -76,6 +76,7 @@ class OrderController extends Controller
     public function getorder(Request $request){
         $status = $request->status;
         $order = Order::with(
+            'order_brands.brand',
             'order_brands.shipping',
             'order_brands.order_details',
             'order_brands.order_details.variants.variants_image',
