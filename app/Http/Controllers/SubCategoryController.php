@@ -66,8 +66,4 @@ class SubCategoryController extends Controller
     {
         //
     }
-    public function addimage(Request $request)
-    {
-        
-    }
 }

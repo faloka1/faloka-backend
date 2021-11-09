@@ -22,7 +22,7 @@ class CartController extends Controller
         if(!Auth::User()) {
             return response()->json([
                 "error" => "User No Found"
-            ]);
+            ],401);
         }
         $cart = $cart->where('user_id',Auth::user()->id)->get();
         if($cart->count() == 0){
