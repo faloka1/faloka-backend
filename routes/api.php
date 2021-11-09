@@ -62,3 +62,7 @@ Route::post('cart','CartController@store');
 Route::delete('cart/{id}', 'CartController@destroy');
 Route::delete('cart-user', 'CartController@destroybyuser');
 Route::patch('cart/{id}', 'CartController@update');
+
+Route::get('inspireme','InspireMeController@index');
+Route::post('inspireme','InspireMeController@store');
+Route::get('order/product-user','InspireMeController@getproductuser');
