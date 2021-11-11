@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2021 at 04:35 AM
+-- Generation Time: Nov 09, 2021 at 11:13 PM
 -- Server version: 10.4.21-MariaDB
 -- PHP Version: 7.3.30
 
@@ -118,6 +118,30 @@ INSERT INTO `carousels` (`id`, `image_url`, `category_id`, `created_at`, `update
 (19, '/storage/carousels/4rhaJHlgSBUDZ5Vst6V7gLGnoabLmQmBjf70muGi.jpg', 1, '2021-10-07 19:33:22', '2021-10-07 19:33:22'),
 (21, '/storage/carousels/Om4bezWCe5fut1IrybH1ktohJNSnjwz0D1pZe9UH.png', 1, '2021-10-17 22:59:25', '2021-10-17 22:59:25'),
 (22, '/storage/carousels/R20JTJB4IA7SXeP11IgJ7RQVYH2VpX7JMJ1FeV1v.png', 1, '2021-10-18 01:53:15', '2021-10-18 01:53:15');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `carts`
+--
+
+CREATE TABLE `carts` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `variant_id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id`, `quantity`, `product_id`, `variant_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(13, 2, 1, 1, 1, '2021-10-31 02:27:00', '2021-10-31 02:27:00'),
+(14, 2, 1, 1, 1, '2021-11-02 05:27:48', '2021-11-02 05:27:48');
 
 -- --------------------------------------------------------
 
@@ -752,6 +776,52 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `inspire_mes`
+--
+
+CREATE TABLE `inspire_mes` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `user_id` bigint(20) UNSIGNED NOT NULL,
+  `image_url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `caption` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `inspire_mes`
+--
+
+INSERT INTO `inspire_mes` (`id`, `user_id`, `image_url`, `title`, `caption`, `created_at`, `updated_at`) VALUES
+(1, 1, '/storage/inspiremes/oEMQwQP1zIRl46fno8y1A42X0KJKPSyPDbZ9wgLA.png', 'OOTD', 'Sangan Nyaman Pokoknya', '2021-11-09 03:41:16', '2021-11-09 03:41:16');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `inspire_me_products`
+--
+
+CREATE TABLE `inspire_me_products` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `inspire_me_id` bigint(20) UNSIGNED NOT NULL,
+  `product_id` bigint(20) UNSIGNED NOT NULL,
+  `variant_id` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `inspire_me_products`
+--
+
+INSERT INTO `inspire_me_products` (`id`, `inspire_me_id`, `product_id`, `variant_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 2, '2021-11-09 03:41:17', '2021-11-09 03:41:17'),
+(2, 1, 5, 1, '2021-11-09 03:41:17', '2021-11-09 03:41:17');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `migrations`
 --
 
@@ -812,7 +882,12 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (62, '2021_10_17_015205_add_foreign_keys_to_products_table', 0),
 (63, '2021_10_17_015205_add_foreign_keys_to_provinces_table', 0),
 (64, '2021_10_17_084636_create_orders_table', 16),
-(65, '2021_10_17_092142_create_order_details_table', 16);
+(65, '2021_10_17_092142_create_order_details_table', 16),
+(66, '2021_10_29_083121_create_carts_table', 17),
+(67, '2021_11_05_061657_create_shipings_table', 18),
+(68, '2021_11_05_113227_create_order_brands_table', 19),
+(69, '2021_11_07_040406_create_inspire_mes_table', 20),
+(72, '2021_11_08_065132_create_inspire_me_products_table', 21);
 
 -- --------------------------------------------------------
 
@@ -823,9 +898,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 CREATE TABLE `orders` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `image_payment_url` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `shipping_price` double(8,2) NOT NULL,
-  `service` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `expedition_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Pending',
   `address_id` bigint(20) UNSIGNED NOT NULL,
   `payment_id` bigint(20) UNSIGNED NOT NULL,
@@ -838,15 +910,33 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `image_payment_url`, `shipping_price`, `service`, `expedition_name`, `status`, `address_id`, `payment_id`, `user_id`, `created_at`, `updated_at`) VALUES
-(7, '/storage/payments/kttyd86bxBs473SrPakMVW0SaF2O4S6hiNP1D89y.png', 10000.00, 'OKE', 'jne', 'dikirim', 1, 1, 3, '2021-10-17 08:42:25', '2021-10-17 23:45:22'),
-(8, NULL, 10000.00, 'OKE', 'jne', 'unpaid', 1, 1, 3, '2021-10-18 04:41:02', '2021-10-18 04:41:02'),
-(9, NULL, 10000.00, 'OKE', 'jne', 'unpaid', 1, 1, 1, '2021-10-18 04:41:45', '2021-10-18 04:41:45'),
-(10, NULL, 10000.00, 'OKE', 'jne', 'Pending', 1, 1, 3, '2021-10-23 10:08:18', '2021-10-23 10:08:18'),
-(11, NULL, 10000.00, 'OKE', 'jne', 'Pending', 1, 1, 3, '2021-10-23 10:12:24', '2021-10-23 10:12:24'),
-(12, NULL, 10000.00, 'OKE', 'jne', 'Pending', 1, 1, 3, '2021-10-23 10:13:58', '2021-10-23 10:13:58'),
-(13, NULL, 10000.00, 'OKE', 'jne', 'Pending', 1, 1, 3, '2021-10-23 10:14:29', '2021-10-23 10:14:29'),
-(14, NULL, 10000.00, 'OKE', 'jne', 'Pending', 1, 1, 3, '2021-10-23 10:15:06', '2021-10-23 10:15:06');
+INSERT INTO `orders` (`id`, `image_payment_url`, `status`, `address_id`, `payment_id`, `user_id`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Pending', 1, 1, 3, '2021-11-05 05:15:36', '2021-11-05 05:15:36'),
+(2, NULL, 'Pending', 1, 1, 1, '2021-11-05 05:17:47', '2021-11-05 05:17:47');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_brands`
+--
+
+CREATE TABLE `order_brands` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `order_id` int(10) UNSIGNED NOT NULL,
+  `brand_id` int(10) UNSIGNED NOT NULL,
+  `shipping_id` int(20) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `order_brands`
+--
+
+INSERT INTO `order_brands` (`id`, `order_id`, `brand_id`, `shipping_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, '2021-11-05 05:15:36', '2021-11-05 05:15:36'),
+(2, 2, 1, 2, '2021-11-05 05:17:47', '2021-11-05 05:17:47'),
+(3, 2, 2, 3, '2021-11-05 05:17:48', '2021-11-05 05:17:48');
 
 -- --------------------------------------------------------
 
@@ -857,6 +947,7 @@ INSERT INTO `orders` (`id`, `image_payment_url`, `shipping_price`, `service`, `e
 CREATE TABLE `order_details` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `quantity` int(11) NOT NULL,
+  `order_brand_id` int(20) NOT NULL,
   `order_id` bigint(20) UNSIGNED NOT NULL,
   `variant_id` bigint(20) UNSIGNED NOT NULL,
   `product_id` bigint(20) UNSIGNED DEFAULT NULL,
@@ -868,12 +959,12 @@ CREATE TABLE `order_details` (
 -- Dumping data for table `order_details`
 --
 
-INSERT INTO `order_details` (`id`, `quantity`, `order_id`, `variant_id`, `product_id`, `created_at`, `updated_at`) VALUES
-(7, 1, 7, 1, 1, '2021-10-22 14:00:12', '2021-10-22 14:00:12'),
-(8, 2, 7, 2, 5, '2021-10-22 14:00:12', '2021-10-22 14:00:12'),
-(9, 2, 10, 1, NULL, '2021-10-23 10:08:18', '2021-10-23 10:08:18'),
-(10, 2, 11, 1, NULL, '2021-10-23 10:12:24', '2021-10-23 10:12:24'),
-(12, 2, 14, 1, 1, '2021-10-23 10:15:06', '2021-10-23 10:15:06');
+INSERT INTO `order_details` (`id`, `quantity`, `order_brand_id`, `order_id`, `variant_id`, `product_id`, `created_at`, `updated_at`) VALUES
+(1, 5, 1, 1, 1, 5, '2021-11-05 05:15:36', '2021-11-05 05:15:36'),
+(2, 5, 1, 1, 1, 1, '2021-11-05 05:15:36', '2021-11-05 05:15:36'),
+(3, 5, 2, 2, 1, 5, '2021-11-05 05:17:47', '2021-11-05 05:17:47'),
+(4, 5, 2, 2, 1, 1, '2021-11-05 05:17:47', '2021-11-05 05:17:47'),
+(5, 5, 3, 2, 1, 6, '2021-11-05 05:17:48', '2021-11-05 05:17:48');
 
 -- --------------------------------------------------------
 
@@ -926,7 +1017,7 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `name`, `description`, `price`, `discount`, `weight`, `slug`, `brand_id`, `mix_and_match_image`, `sub_categories_id`, `category_subcategory_id`, `created_at`, `updated_at`) VALUES
 (1, 'Kaos T-Shirt', 'knitted cardigan with textured popcorn detail ribbed cuffs and hems for a snug fit button fastening', 50000, 0, 1000, 'kaos-tshirt', 1, '/storage/variants_image/1.png', 2, 1, '2021-10-01 00:24:13', '2021-10-01 00:24:13'),
-(5, 'Kemeja', 'knitted cardigan with textured popcorn detail ribbed cuffs and hems for a snug fit button fastening', 50000, 0, 1000, 'kemeja-pria', 1, '/storage/variants_image/2.png', 3, 1, '2021-10-01 00:24:13', '2021-10-01 00:24:13'),
+(5, 'Kemeja', 'knitted cardigan with textured popcorn detail ribbed cuffs and hems for a snug fit button fastening', 50000, 0, 1000, 'kemeja-pria', 2, '/storage/variants_image/2.png', 3, 1, '2021-10-01 00:24:13', '2021-10-01 00:24:13'),
 (6, 'Kemeja', 'Cewek', 50000, 0, 1000, 'kemeja-wanita', 1, '/storage/variants_image/3.png', 3, 1, '2021-10-01 00:24:13', '2021-10-01 00:24:13');
 
 -- --------------------------------------------------------
@@ -986,6 +1077,30 @@ INSERT INTO `provinces` (`id`, `province_id`, `title`, `created_at`, `updated_at
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `shippings`
+--
+
+CREATE TABLE `shippings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `shipping_price` double(8,2) NOT NULL,
+  `expedition_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `service` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `shippings`
+--
+
+INSERT INTO `shippings` (`id`, `shipping_price`, `expedition_name`, `service`, `created_at`, `updated_at`) VALUES
+(1, 6000.00, 'jne', 'OKE', '2021-11-05 05:15:36', '2021-11-05 05:15:36'),
+(2, 6000.00, 'jne', 'OKE', '2021-11-05 05:17:47', '2021-11-05 05:17:47'),
+(3, 10000.00, 'TIKI', 'OKE', '2021-11-05 05:17:48', '2021-11-05 05:17:48');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `sub_categories`
 --
 
@@ -1038,7 +1153,11 @@ CREATE TABLE `users` (
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `phone_number`, `gender`, `image_profile`, `photo_profile_url`, `remember_token`, `created_at`, `updated_at`) VALUES
 (1, 'Feri Afrianto', 'feri@gmail.com', NULL, '$2y$10$hbtWtSPEsd6rmR5IqATjlu6l9Ct6oq4X3C/GIrPv49sNOVJ9KTz6a', '12345678912', 'L', 'avatar.png', NULL, NULL, '2021-09-27 22:39:31', '2021-09-27 22:39:31'),
 (2, 'Ilham', 'ilham@gmail.com', NULL, '$2y$10$Owzj9eHFZ86LWKpoTrsvqe5zUIA04P4GaprUQkCmb/9O3c/tqELg2', '12345678912', 'L', 'avatar.png', NULL, NULL, '2021-09-29 03:03:15', '2021-09-29 03:03:15'),
-(3, 'Feri Afrianto', 'feri7@gmail.com', NULL, '$2y$10$hyCjpIYmmnWWD.PM.9.AVOJg6AxyY4rmAWd7wUgcU5xJvLtXoMvOu', '12345678912', 'L', 'avatar.png', NULL, NULL, '2021-10-09 00:35:44', '2021-10-09 00:35:44');
+(3, 'Feri Afrianto', 'feri7@gmail.com', NULL, '$2y$10$hyCjpIYmmnWWD.PM.9.AVOJg6AxyY4rmAWd7wUgcU5xJvLtXoMvOu', '12345678912', 'L', 'avatar.png', NULL, NULL, '2021-10-09 00:35:44', '2021-10-09 00:35:44'),
+(4, 'Feri Afrianto', 'feri8@gmail.com', NULL, '$2y$10$GvooVnAglGfgGDuOhZgAj.UXqqQiq3y1aJGD48sqZNFFg3SJwINZu', '12345678912', 'L', 'avatar.png', NULL, NULL, '2021-10-26 08:16:11', '2021-10-26 08:16:11'),
+(5, 'Feri Afrianto', 'feri9@gmail.com', NULL, '$2y$10$rCm0K9hY3QZMxwY4E4rn7eTcOwDq30YFtk4vCIMP0/Mqv7GkkJFT.', '12345678912', 'L', 'avatar.png', NULL, NULL, '2021-10-26 08:36:35', '2021-10-26 08:36:35'),
+(6, 'Feri Afrianto', 'feri90@gmail.com', NULL, '$2y$10$q2uKQL6CJINgwD2BoEsb3.bN2Qo69npFv2icICRFIqoa/gG6R9GeK', '12345678912', 'L', 'avatar.png', NULL, NULL, '2021-10-27 04:09:55', '2021-10-27 04:09:55'),
+(7, 'Feri Afrianto', 'feri80@gmail.com', NULL, '$2y$10$5ogjiv.cme4Oi3pMBo4sre16EgKkhuPdfyRFEOnEVxndzAqF0Wdiu', '12345678912', 'L', 'avatar.png', NULL, NULL, '2021-10-27 04:25:58', '2021-10-27 04:25:58');
 
 -- --------------------------------------------------------
 
@@ -1120,6 +1239,15 @@ ALTER TABLE `carousels`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `variant_id` (`variant_id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
 -- Indexes for table `categories`
 --
 ALTER TABLE `categories`
@@ -1161,6 +1289,22 @@ ALTER TABLE `failed_jobs`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `inspire_mes`
+--
+ALTER TABLE `inspire_mes`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `inspire_me_products`
+--
+ALTER TABLE `inspire_me_products`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `inspire_me_products_inspire_me_id_foreign` (`inspire_me_id`),
+  ADD KEY `inspire_me_products_product_id_foreign` (`product_id`),
+  ADD KEY `inspire_me_products_variant_id_foreign` (`variant_id`);
+
+--
 -- Indexes for table `migrations`
 --
 ALTER TABLE `migrations`
@@ -1174,6 +1318,12 @@ ALTER TABLE `orders`
   ADD KEY `address_id` (`address_id`),
   ADD KEY `payment_id` (`payment_id`),
   ADD KEY `user_id` (`user_id`);
+
+--
+-- Indexes for table `order_brands`
+--
+ALTER TABLE `order_brands`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `order_details`
@@ -1203,6 +1353,12 @@ ALTER TABLE `products`
 ALTER TABLE `provinces`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `province_id` (`province_id`);
+
+--
+-- Indexes for table `shippings`
+--
+ALTER TABLE `shippings`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `sub_categories`
@@ -1258,6 +1414,12 @@ ALTER TABLE `carousels`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
+-- AUTO_INCREMENT for table `carts`
+--
+ALTER TABLE `carts`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
@@ -1288,22 +1450,40 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `inspire_mes`
+--
+ALTER TABLE `inspire_mes`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `inspire_me_products`
+--
+ALTER TABLE `inspire_me_products`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=73;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `order_brands`
+--
+ALTER TABLE `order_brands`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `payments`
@@ -1324,6 +1504,12 @@ ALTER TABLE `provinces`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
+-- AUTO_INCREMENT for table `shippings`
+--
+ALTER TABLE `shippings`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT for table `sub_categories`
 --
 ALTER TABLE `sub_categories`
@@ -1333,7 +1519,7 @@ ALTER TABLE `sub_categories`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `variants`
@@ -1365,6 +1551,14 @@ ALTER TABLE `address_user`
   ADD CONSTRAINT `address_user_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
 --
+-- Constraints for table `carts`
+--
+ALTER TABLE `carts`
+  ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `carts_ibfk_2` FOREIGN KEY (`variant_id`) REFERENCES `variants` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `carts_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
 -- Constraints for table `category_product`
 --
 ALTER TABLE `category_product`
@@ -1377,6 +1571,20 @@ ALTER TABLE `category_product`
 ALTER TABLE `category_sub_category`
   ADD CONSTRAINT `category_sub_category_ibfk_1` FOREIGN KEY (`sub_category_id`) REFERENCES `sub_categories` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `category_sub_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `categories` (`id`) ON UPDATE CASCADE;
+
+--
+-- Constraints for table `inspire_mes`
+--
+ALTER TABLE `inspire_mes`
+  ADD CONSTRAINT `inspire_mes_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE;
+
+--
+-- Constraints for table `inspire_me_products`
+--
+ALTER TABLE `inspire_me_products`
+  ADD CONSTRAINT `inspire_me_products_inspire_me_id_foreign` FOREIGN KEY (`inspire_me_id`) REFERENCES `inspire_mes` (`id`),
+  ADD CONSTRAINT `inspire_me_products_product_id_foreign` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
+  ADD CONSTRAINT `inspire_me_products_variant_id_foreign` FOREIGN KEY (`variant_id`) REFERENCES `variants` (`id`);
 
 --
 -- Constraints for table `orders`
