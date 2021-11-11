@@ -116,4 +116,15 @@ class InspireMeController extends Controller
 
         return response()->json($orderproduct);
     }
+    public function getinspireme($id){
+        $inspireMe = InspireMe::with(
+            'inspiremeproducts',
+            'inspiremeproducts.variants.variants_image',
+            'inspiremeproducts.products','user')->where('id',$id)->get();
+        if(count($inspireMe) < 1){
+            return response()->json(['error' => 'Inspire Me not found'],404);
+        }
+        return response()->json($inspireMe);
+        
+    }
 }

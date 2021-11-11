@@ -65,4 +65,5 @@ Route::patch('cart/{id}', 'CartController@update');
 
 Route::get('inspireme','InspireMeController@index');
 Route::post('inspireme','InspireMeController@store');
-Route::get('order/product-user','InspireMeController@getproductuser');
+Route::get('inspireme/user/products','InspireMeController@getproductuser');
+Route::get('inspireme/{id}','InspireMeController@getinspireme');
