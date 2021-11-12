@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class InspireMe extends Model
 {
     protected $fillable = [
-        'image_url','user_id','title','caption'
+        'image_url','user_id','caption'
     ];
     public function inspiremeproducts()
     {
