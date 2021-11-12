@@ -67,3 +67,4 @@ Route::get('inspireme','InspireMeController@index');
 Route::post('inspireme','InspireMeController@store');
 Route::get('inspireme/user/products','InspireMeController@getproductuser');
 Route::get('inspireme/{id}','InspireMeController@getinspireme');
+Route::get('inspireme/user/posts','InspireMeController@getpost');

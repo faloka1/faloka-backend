@@ -125,4 +125,19 @@ class InspireMeController extends Controller
         return response()->json($inspireMe);
         
     }
+    public function getpost(){
+        if(!Auth::User()) {
+            return response()->json([
+                "error" => "User No Found"
+            ],401);
+        }
+        $inspireMe = InspireMe::with(
+            'inspiremeproducts',
+            'inspiremeproducts.variants.variants_image',
+            'inspiremeproducts.products')->where('user_id',Auth::User()->id)->orderBy('id', 'DESC')->get();
+        if(count($inspireMe) < 1){
+            return response()->json(['error' => 'Inspire Me not found'],404);
+        }
+        return response()->json($inspireMe);
+    }
 }
