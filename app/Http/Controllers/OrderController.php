@@ -82,11 +82,11 @@ class OrderController extends Controller
             'order_brands.order_details.variants.variants_image',
             'order_brands.order_details.products',
             'address.districts','address.provinces',
-            'payment')->where('user_id',Auth::user()->id);
+            'payment')->where('user_id',Auth::user()->id)->orderBy('updated_at', 'DESC');
         if($request->has('status')){
             $order->where('status', '=', $status);
         }
 
-        return response()->json($order->orderBy('id', 'DESC')->get());
+        return response()->json($order->get());
     }
 }
