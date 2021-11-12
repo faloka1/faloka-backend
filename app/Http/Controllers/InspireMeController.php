@@ -37,7 +37,6 @@ class InspireMeController extends Controller
         
         $validator = Validator::make($request->all(), [
             'image' => 'required|image:jpeg,png,jpg,gif,svg|max:2048',
-            'title' => 'required',
             'caption' => 'required'
         ]);
         
@@ -52,7 +51,6 @@ class InspireMeController extends Controller
         $inspireme = new InspireMe([
             'image_url' => '/storage/' . $image_uploaded_path,
             'user_id' => Auth::User()->id,
-            'title' => $request->title,
             'caption' =>  $request->caption
         ]);
         $inspireme->save();
