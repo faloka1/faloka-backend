@@ -25,11 +25,6 @@ class CartController extends Controller
             ],401);
         }
         $cart = $cart->where('user_id',Auth::user()->id)->get();
-        if($cart->count() == 0){
-            return response()->json([
-                "massage" => "Cart Not Found"
-            ]);
-        }
         return response()->json($cart);
     }
 
