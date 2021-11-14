@@ -21,8 +21,8 @@ class InspireMeController extends Controller
         $inspireMe = InspireMe::with(
             'inspiremeproducts',
             'inspiremeproducts.variants.variants_image',
-            'inspiremeproducts.products',
-            'user')->get();
+            'inspiremeproducts.products.brands',
+            'user')->orderBy('id', 'DESC')->get();
         return response()->json($inspireMe);
     }
 
@@ -64,7 +64,8 @@ class InspireMeController extends Controller
         };
 
         return response()->json([
-            'message' => 'Successfully Add Outfit'
+            'message' => 'Successfully Add Outfit',
+            'inpireme_id' => $inspireme->id
         ], 201); 
     }
 
@@ -134,7 +135,8 @@ class InspireMeController extends Controller
         $inspireMe = InspireMe::with(
             'inspiremeproducts',
             'inspiremeproducts.variants.variants_image',
-            'inspiremeproducts.products')->where('user_id',Auth::User()->id)->orderBy('id', 'DESC')->get();
+            'inspiremeproducts.products',
+            'inspiremeproducts.products.brands')->where('user_id',Auth::User()->id)->orderBy('id', 'DESC')->get();
         if(count($inspireMe) < 1){
             return response()->json(['error' => 'Inspire Me not found'],404);
         }

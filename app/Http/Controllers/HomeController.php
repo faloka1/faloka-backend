@@ -32,10 +32,6 @@ class HomeController extends Controller
         //
     }
 
-    public function destroy($id)
-    {
-        //
-    }
     public function showPopuler($slug){
         $user = DB::table('category_sub_category')
                 ->join('categories', 'categories.id', '=', 'category_sub_category.category_id')
