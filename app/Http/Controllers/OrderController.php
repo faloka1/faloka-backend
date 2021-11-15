@@ -68,7 +68,11 @@ class OrderController extends Controller
             'status' => "pending"
         ]);
         if ($order){
-            return response()->json(['message' => "Data Successfully Updated"]);
+            return response()->json([
+                'message' => "Data Successfully Updated",
+                'image_payment_url' => Order::where('id', $id)
+                ->pluck('image_payment_url')
+                ->first()]);
         } else {
             return response()->json(['message' => "Failed"]);
         }
