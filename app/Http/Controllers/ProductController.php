@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use App\Category;
+use App\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -54,9 +55,11 @@ class ProductController extends Controller
             $product->whereHas('sub_categories', function($subcategories) use($subcategory) {
                 $subcategories->where('slug', '=', $subcategory);
             });
+            $subcategory = SubCategory::where('slug', '=', $subcategory)->get();
         }
         return response()->json([
             "category" => $category,
+            "sub_category" => $subcategory,
             "product" => $product->get(),
             "count" => $product->get()->count()
         ]);
