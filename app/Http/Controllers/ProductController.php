@@ -57,6 +57,9 @@ class ProductController extends Controller
             });
             $subcategory = SubCategory::where('slug', '=', $subcategory)->get();
         }
+        if($request->has('search')){
+            $product->where('name', 'like', '%' . $request->search . '%');
+        }
         return response()->json([
             "category" => $category,
             "sub_category" => $subcategory,
