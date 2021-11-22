@@ -44,14 +44,6 @@ class ProductController extends Controller
     {
         $category = $request->category;
         $subcategory = $request->subcategory;
-        if($request->search == ""){
-            return response()->json([
-                "category" => $category,
-                "sub_category" => $subcategory,
-                "products" => [],
-                "count" => 0
-            ]);
-        }
         $product = Product::with('sub_categories','categories','brands','variants.variants_image');
         if($request->has('category')){
             $product->whereHas('categories', function($categories) use($category) {
@@ -66,6 +58,14 @@ class ProductController extends Controller
             $subcategory = SubCategory::where('slug', '=', $subcategory)->get();
         }
         if($request->has('search')){
+            if($request->search == ""){
+                return response()->json([
+                    "category" => $category,
+                    "sub_category" => $subcategory,
+                    "products" => [],
+                    "count" => 0
+                ]);
+            }
             $product->where('name', 'like', '%' . $request->search . '%');
         }
         return response()->json([
