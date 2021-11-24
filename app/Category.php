@@ -9,6 +9,9 @@ class Category extends Model
     protected $fillable = [
         'name'
     ];
+    protected $hidden = [
+        'pivot'
+    ];
     public function sub_categories(){
         return $this->belongsToMany(SubCategory::class)->withPivot('image_url');
     }
