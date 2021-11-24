@@ -55,7 +55,7 @@ class ProductController extends Controller
             $product->whereHas('sub_categories', function($subcategories) use($subcategory) {
                 $subcategories->where('slug', '=', $subcategory);
             })->get();
-            $subcategory = SubCategory::where('slug', '=', $subcategory)->get();
+            $subcategory = SubCategory::with('category')->where('slug', '=', $subcategory)->get();
         }
         if($request->has('search')){
             if($request->search == ""){
