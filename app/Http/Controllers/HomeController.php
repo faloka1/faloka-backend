@@ -36,10 +36,10 @@ class HomeController extends Controller
         $user = DB::table('category_sub_category')
                 ->join('categories', 'categories.id', '=', 'category_sub_category.category_id')
                 ->join('sub_categories', 'category_sub_category.sub_category_id', '=', 'sub_categories.id')
-                ->select('sub_categories.name','sub_categories.slug')
+                ->select('sub_categories.name','sub_categories.slug','category_sub_category.image_url')
                 ->where('categories.slug',$slug)
                 ->limit(3)
                 ->get();
-        return response()->json(['sub_categories' => $user]);
+        return response()->json($user);
     }
 }
