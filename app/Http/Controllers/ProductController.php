@@ -83,8 +83,6 @@ class ProductController extends Controller
         } else {
             return response()->json($product);
         }
-        
-
     }
     public function getproductsrelated($productslug){
         $category = Category::whereHas('products', function($q) use ($productslug) {

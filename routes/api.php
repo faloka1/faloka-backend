@@ -68,3 +68,7 @@ Route::post('inspireme','InspireMeController@store');
 Route::get('inspireme/user/products','InspireMeController@getproductuser');
 Route::get('inspireme/{id}','InspireMeController@getinspireme');
 Route::get('inspireme/user/posts','InspireMeController@getpost');
+
+Route::get('visual-search','VisualSearchController@getvisualsearch');
+Route::post('insert-visual-search','VisualSearchController@postvisualsearch');
+Route::post('visual-search/search','VisualSearchController@search');
