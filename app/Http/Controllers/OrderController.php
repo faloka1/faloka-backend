@@ -84,6 +84,7 @@ class OrderController extends Controller
             'order_brands.shipping',
             'order_brands.order_details',
             'order_brands.order_details.variants.variants_image',
+            'order_brands.order_details.variants.variants_sizes',
             'order_brands.order_details.products',
             'address.districts','address.provinces',
             'payment')->where('user_id',Auth::user()->id)->orderBy('updated_at', 'DESC');

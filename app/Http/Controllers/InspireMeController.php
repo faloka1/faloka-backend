@@ -21,6 +21,7 @@ class InspireMeController extends Controller
         $inspireMe = InspireMe::with(
             'inspiremeproducts',
             'inspiremeproducts.variants.variants_image',
+            'inspiremeproducts.variants.variants_sizes',
             'inspiremeproducts.products.brands',
             'user')->orderBy('id', 'DESC')->get();
         return response()->json($inspireMe);
@@ -109,7 +110,7 @@ class InspireMeController extends Controller
                 "error" => "User No Found"
             ],401);
         }
-        $orderproduct = OrderDetail::with('variants.variants_image','products.brands')->whereHas('order', function ($query) {
+        $orderproduct = OrderDetail::with('variants.variants_image','variants.variants_sizes','products.brands')->whereHas('order', function ($query) {
             return $query->where('user_id', '=', Auth::User()->id);
         })->get();
 
@@ -119,6 +120,7 @@ class InspireMeController extends Controller
         $inspireMe = InspireMe::with(
             'inspiremeproducts',
             'inspiremeproducts.variants.variants_image',
+            'inspiremeproducts.variants.variants_sizes',
             'inspiremeproducts.products','user')->where('id',$id)->get();
         if(count($inspireMe) < 1){
             return response()->json(['error' => 'Inspire Me not found'],404);
@@ -135,6 +137,7 @@ class InspireMeController extends Controller
         $inspireMe = InspireMe::with(
             'inspiremeproducts',
             'inspiremeproducts.variants.variants_image',
+            'inspiremeproducts.variants.variants_sizes',
             'inspiremeproducts.products',
             'inspiremeproducts.products.brands')->where('user_id',Auth::User()->id)->orderBy('id', 'DESC')->get();
         if(count($inspireMe) < 1){

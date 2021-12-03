@@ -10,7 +10,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $home = Category::with('carousels','sub_categories','products.brands','products.variants.variants_image')
+        $home = Category::with('carousels','sub_categories','products.brands','products.variants.variants_image','variants.variants_sizes')
                 ->take(-1)
                 ->get();
         return response()->json($home);

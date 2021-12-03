@@ -13,4 +13,8 @@ class Variant extends Model
     {
         return $this->hasMany('App\VariantImage');
     }
+    public function variants_sizes()
+    {
+        return $this->hasMany('App\VariantSize');
+    }
 }
