@@ -44,7 +44,7 @@ class ProductController extends Controller
     {
         $category = $request->category;
         $subcategory = $request->subcategory;
-        $product = Product::with('sub_categories','categories','brands','variants.variants_image');
+        $product = Product::with('sub_categories','categories','brands','variants.variants_image','variants.variants_sizes');
         if($request->has('category')){
             $product->whereHas('categories', function($categories) use($category) {
                 $categories->where('slug', '=', $category);
@@ -76,7 +76,7 @@ class ProductController extends Controller
         ]);
     }
     public function getproducts($slug){
-        $product = Product::with('sub_categories','categories','brands','variants.variants_image')
+        $product = Product::with('sub_categories','categories','brands','variants.variants_image','variants.variants_sizes')
                     ->where('slug',$slug)->first();
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
@@ -88,7 +88,7 @@ class ProductController extends Controller
         $category = Category::whereHas('products', function($q) use ($productslug) {
             $q->where('slug',$productslug);
         })->select('slug')->get()->toArray();
-        $product = Product::with('brands','variants.variants_image')
+        $product = Product::with('brands','variants.variants_image','variants.variants_sizes')
                     ->whereHas('categories',function($q) use ($category){
                         $q->whereIn('slug',$category);
                     })->where('slug','!=',$productslug)->get();
@@ -109,7 +109,7 @@ class ProductController extends Controller
         }
     }
     public function cartrelated(){
-        $product = Product::with('sub_categories','categories','brands','variants.variants_image')
+        $product = Product::with('sub_categories','categories','brands','variants.variants_image','variants.variants_sizes')
                     ->inRandomOrder()
                     ->limit(5);
         return response()->json($product->get());

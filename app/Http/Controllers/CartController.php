@@ -18,6 +18,7 @@ class CartController extends Controller
     {
         $cart = Cart::with(
             'variants.variants_image',
+            'variants.variants_sizes',
             'products.brands');
         if(!Auth::User()) {
             return response()->json([

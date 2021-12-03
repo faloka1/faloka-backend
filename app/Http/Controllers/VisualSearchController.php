@@ -59,7 +59,7 @@ class VisualSearchController extends Controller
                 ]
             ]);
             $data = json_decode($response->getBody(), true);
-            $product = Product::with('sub_categories','categories','brands','variants.variants_image')
+            $product = Product::with('sub_categories','categories','brands','variants.variants_image','variants.variants_sizes')
                     ->whereIn('id',$data)
                     ->orderByRaw(\DB::raw("FIELD(id, ".implode(",",$data).")"))
                     ->get();
