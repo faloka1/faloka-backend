@@ -23,7 +23,7 @@ class InspireMeController extends Controller
             'inspiremeproducts.variants.variants_image',
             'inspiremeproducts.variants.variants_sizes',
             'inspiremeproducts.products.brands',
-            'user')->orderBy('id', 'DESC')->get();
+            'user')->orderBy('id', 'DESC')->paginate(12);
         return response()->json($inspireMe);
     }
 
