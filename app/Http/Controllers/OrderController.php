@@ -42,6 +42,7 @@ class OrderController extends Controller
                     $orderDetail->order_brand_id = $brand->id;
                     $orderDetail->variant_id = $item['variant_id'];
                     $orderDetail->product_id = $item['product_id'];
+                    $orderDetail->variantsize_id = $item['variantsize_id'];
                     $orderDetail->save();
                 }
             }
