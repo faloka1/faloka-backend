@@ -41,6 +41,7 @@ class CartController extends Controller
         $cart->quantity = $request->quantity;
         $cart->variant_id = $request->variant_id;
         $cart->product_id = $request->product_id;
+        $cart->variantsize_id = $request->variantsize_id;
         if(!Auth::User()) {
             return response()->json([
                 "error" => "User No Found"
@@ -56,18 +57,6 @@ class CartController extends Controller
             return response()->json([ 'message' => "Failed"]);
         }  
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Cart  $cart
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Cart $cart)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *
