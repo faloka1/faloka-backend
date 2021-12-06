@@ -18,4 +18,7 @@ class OrderDetail extends Model
     public function order(){
         return $this->belongsTo('App\Order','order_id');
     }
+    public function variants_sizes(){
+        return $this->belongsTo('App\VariantSize','variantsize_id');
+    }
 }
