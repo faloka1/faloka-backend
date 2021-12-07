@@ -16,17 +16,19 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = Cart::with(
-            'variants.variants_image',
-            'variants_sizes',
-            'products.brands');
+        $carts = Cart::with(['products.brands'])->get();
+        foreach ($carts as $cart) {
+            $cart->load(['variants.variants_sizes' => function ($query) use ($cart) {
+                $query->where('id', $cart->variantsize_id);
+            },'variants.variants_image']);
+        }
         if(!Auth::User()) {
             return response()->json([
                 "error" => "User No Found"
             ],401);
         }
-        $cart = $cart->where('user_id',Auth::user()->id)->get();
-        return response()->json($cart);
+        $carts = $carts->where('user_id',Auth::user()->id);
+        return response()->json($carts);
     }
 
     /**

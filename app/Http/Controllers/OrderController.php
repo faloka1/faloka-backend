@@ -80,19 +80,25 @@ class OrderController extends Controller
     }
     public function getorder(Request $request){
         $status = $request->status;
-        $order = Order::with(
+        $orders = Order::with(
             'order_brands.brand',
             'order_brands.shipping',
-            'order_brands.order_details',
-            'order_brands.order_details.variants.variants_image',
-            'order_brands.order_details.variants_sizes',
-            'order_brands.order_details.products',
             'address.districts','address.provinces',
             'payment')->where('user_id',Auth::user()->id)->orderBy('updated_at', 'DESC');
         if($request->has('status')){
-            $order->where('status', '=', $status);
+            $orders->where('status', '=', $status);
+        }
+        $orders = $orders->get();
+        foreach ($orders as $order) {
+            foreach($order->order_brands as $brand){
+                foreach ($brand->order_details as $detail) {
+                    $detail->load(['variants.variants_sizes' => function ($query) use ($detail) {
+                        $query->where('id', $detail->variantsize_id);
+                    },'variants.variants_image','products']);
+                }
+            }   
         }
 
-        return response()->json($order->get());
+        return response()->json($orders);
     }
 }
