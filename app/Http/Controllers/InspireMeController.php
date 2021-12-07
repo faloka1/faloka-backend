@@ -110,11 +110,16 @@ class InspireMeController extends Controller
                 "error" => "User No Found"
             ],401);
         }
-        $orderproduct = OrderDetail::with('variants.variants_image','variants_sizes','products.brands')->whereHas('order', function ($query) {
+        $orderproducts = OrderDetail::with('products.brands')->whereHas('order', function ($query) {
             return $query->where('user_id', '=', Auth::User()->id);
         })->get();
+        foreach ($orderproducts as $orderproduct) {
+            $orderproduct->load(['variants.variants_sizes' => function ($query) use ($orderproduct) {
+                $query->where('id', $orderproduct->variantsize_id);
+            },'variants.variants_image']);
+        }
 
-        return response()->json($orderproduct);
+        return response()->json($orderproducts);
     }
     public function getinspireme($id){
         $inspireMe = InspireMe::with(
