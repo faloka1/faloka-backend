@@ -96,16 +96,26 @@ class ProductController extends Controller
     }
     public function getMixAndMatch(Request $request){
         $category = $request->category;
-        $product = Product::select('slug','mix_and_match_image');
-        if($request->has('category')){
-            $product->whereHas('categories',function($q) use ($category){
-                $q->where('slug',$category);
-            });
-        }
+        $product = DB::table('products as p')->select(
+            'p.id',
+            'p.slug',
+            'p.mix_and_match_image',
+            'vi.image_url'
+        )
+        ->leftjoin('variants as v','p.id','=','v.product_id')
+        ->leftjoin('variant_images as vi','vi.variant_id','=','v.id')->get();
+        // $product = Product::select('id','slug','mix_and_match_image');
+                    
+        // $product = $product->with(['variants.variants_image_mix']);
+        // if($request->has('category')){
+        //     $product->whereHas('categories',function($q) use ($category){
+        //         $q->where('slug',$category);
+        //     });
+        // }
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         } else {
-            return response()->json($product->get());
+            return response()->json($product);
         }
     }
     public function cartrelated(){
