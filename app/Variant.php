@@ -17,4 +17,8 @@ class Variant extends Model
     {
         return $this->hasMany('App\VariantSize');
     }
+    public function variants_image_mix()
+    {
+        return $this->hasMany('App\VariantImage')->pluck('image_url','id');
+    }
 }
