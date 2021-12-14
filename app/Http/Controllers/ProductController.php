@@ -100,22 +100,21 @@ class ProductController extends Controller
             'p.id',
             'p.slug',
             'p.mix_and_match_image',
-            'vi.image_url'
+            'vi.image_url',
+            'c.slug'
         )
         ->leftjoin('variants as v','p.id','=','v.product_id')
-        ->leftjoin('variant_images as vi','vi.variant_id','=','v.id')->get();
-        // $product = Product::select('id','slug','mix_and_match_image');
-                    
-        // $product = $product->with(['variants.variants_image_mix']);
-        // if($request->has('category')){
-        //     $product->whereHas('categories',function($q) use ($category){
-        //         $q->where('slug',$category);
-        //     });
-        // }
+        ->leftjoin('variant_images as vi','vi.variant_id','=','v.id')
+        ->leftjoin('category_product as cp','p.id','=','cp.product_id')
+        ->leftjoin('categories as c','c.id','=','cp.category_id');
+        
+        if($request->has('category')){
+            $product->where('c.slug',$category);
+        }
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         } else {
-            return response()->json($product);
+            return response()->json($product->get());
         }
     }
     public function cartrelated(){
