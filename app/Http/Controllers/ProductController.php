@@ -100,8 +100,7 @@ class ProductController extends Controller
             'p.id',
             'p.slug',
             'p.mix_and_match_image',
-            'vi.image_url',
-            'c.slug'
+            'vi.image_url'
         )
         ->leftjoin('variants as v','p.id','=','v.product_id')
         ->leftjoin('variant_images as vi','vi.variant_id','=','v.id')
