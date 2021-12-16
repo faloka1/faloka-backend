@@ -91,7 +91,7 @@ class ProductController extends Controller
         $product = Product::with('brands','variants.variants_image','variants.variants_sizes')
                     ->whereHas('categories',function($q) use ($category){
                         $q->whereIn('slug',$category);
-                    })->where('slug','!=',$productslug)->get();
+                    })->where('slug','!=',$productslug)->limit(4)->get();
         return response()->json($product);
     }
     public function getMixAndMatch(Request $request){
@@ -113,7 +113,7 @@ class ProductController extends Controller
         if (!$product) {
             return response()->json(['error' => 'Product not found'], 404);
         } else {
-            return response()->json($product->get());
+            return response()->json($product->distinct()->get());
         }
     }
     public function cartrelated(){
