@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSlugToCategoriesTable extends Migration
+class AddForeignKeysToProductsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSlugToCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->string('slug')->after('name');
+        Schema::table('products', function (Blueprint $table) {
+            $table->foreign(['sub_categories_id'], 'products_ibfk_1')->references(['id'])->on('sub_categories')->onUpdate('CASCADE');
         });
     }
 
@@ -25,8 +25,8 @@ class AddSlugToCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('categories', function (Blueprint $table) {
-            $table->string('slug');
+        Schema::table('products', function (Blueprint $table) {
+            $table->dropForeign('products_ibfk_1');
         });
     }
 }

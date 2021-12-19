@@ -14,7 +14,7 @@ class CreatePaymentsTable extends Migration
     public function up()
     {
         Schema::create('payments', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->string('payment_name');
             $table->integer('no_rekening');
             $table->string('account_name');
@@ -29,6 +29,6 @@ class CreatePaymentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('payment_method');
+        Schema::dropIfExists('payments');
     }
 }

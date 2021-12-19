@@ -14,7 +14,8 @@ class CreateExpeditionsTable extends Migration
     public function up()
     {
         Schema::create('expeditions', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
+            $table->string('code', 50);
             $table->string('name');
             $table->timestamps();
         });

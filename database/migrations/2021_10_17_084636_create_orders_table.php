@@ -14,14 +14,12 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->string('total_price');
-            $table->string('image_payment_url')->nullable;
-            $table->float('shipping_price');
-            $table->string('status');
-            $table->integer('address_id');
-            $table->integer('payment_id');
-            $table->integer('user_id');
+            $table->bigIncrements('id');
+            $table->string('image_payment_url')->nullable();
+            $table->string('status')->default('unpaid');
+            $table->unsignedBigInteger('address_id')->index('address_id');
+            $table->unsignedBigInteger('payment_id')->index('payment_id');
+            $table->unsignedBigInteger('user_id')->index('user_id');
             $table->timestamps();
         });
     }

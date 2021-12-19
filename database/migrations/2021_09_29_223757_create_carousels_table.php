@@ -14,8 +14,8 @@ class CreateCarouselsTable extends Migration
     public function up()
     {
         Schema::create('carousels', function (Blueprint $table) {
-            $table->id();
-            $table->string('image');
+            $table->bigIncrements('id');
+            $table->string('image_url');
             $table->integer('category_id');
             $table->timestamps();
         });

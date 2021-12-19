@@ -69,40 +69,6 @@ class InspireMeController extends Controller
             'inpireme_id' => $inspireme->id
         ], 201); 
     }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\InspireMe  $inspireMe
-     * @return \Illuminate\Http\Response
-     */
-    public function show(InspireMe $inspireMe)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\InspireMe  $inspireMe
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, InspireMe $inspireMe)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\InspireMe  $inspireMe
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(InspireMe $inspireMe)
-    {
-        //
-    }
     public function getproductuser()
     {
         if(!Auth::User()) {
