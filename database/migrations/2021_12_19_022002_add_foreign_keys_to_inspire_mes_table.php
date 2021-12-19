@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSlugToSubCategoriesTable extends Migration
+class AddForeignKeysToInspireMesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSlugToSubCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('sub_categories', function (Blueprint $table) {
-            $table->string('slug')->after('name');
+        Schema::table('inspire_mes', function (Blueprint $table) {
+            $table->foreign(['user_id'], 'inspire_mes_ibfk_1')->references(['id'])->on('users')->onDelete('CASCADE');
         });
     }
 
@@ -25,8 +25,8 @@ class AddSlugToSubCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('sub_categories', function (Blueprint $table) {
-            $table->string('slug');
+        Schema::table('inspire_mes', function (Blueprint $table) {
+            $table->dropForeign('inspire_mes_ibfk_1');
         });
     }
 }

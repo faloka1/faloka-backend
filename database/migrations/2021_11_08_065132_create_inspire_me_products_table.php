@@ -14,14 +14,10 @@ class CreateInspireMeProductsTable extends Migration
     public function up()
     {
         Schema::create('inspire_me_products', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('inspire_me_id');
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('variant_id');
-            // foreign keys
-            $table->foreign('inspire_me_id')->references('id')->on('inspire_mes');
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('variant_id')->references('id')->on('variants');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('inspire_me_id')->index('inspire_me_products_inspire_me_id_foreign');
+            $table->unsignedBigInteger('product_id')->index('inspire_me_products_product_id_foreign');
+            $table->unsignedBigInteger('variant_id')->index('inspire_me_products_variant_id_foreign');
             $table->timestamps();
         });
     }

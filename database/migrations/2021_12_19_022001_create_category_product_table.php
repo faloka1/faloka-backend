@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddImageUrlToSubCategoriesTable extends Migration
+class CreateCategoryProductTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,9 @@ class AddImageUrlToSubCategoriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('sub_categories', function (Blueprint $table) {
-            $table->integer('image_url')->after('name');
+        Schema::create('category_product', function (Blueprint $table) {
+            $table->unsignedBigInteger('product_id')->index('product_id');
+            $table->unsignedBigInteger('category_id')->index('categories_id');
         });
     }
 
@@ -25,8 +26,6 @@ class AddImageUrlToSubCategoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('sub_categories', function (Blueprint $table) {
-            $table->integer('image_url');
-        });
+        Schema::dropIfExists('category_product');
     }
 }

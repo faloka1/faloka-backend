@@ -14,10 +14,9 @@ class CreateInspireMesTable extends Migration
     public function up()
     {
         Schema::create('inspire_mes', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedInteger('user_id');
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id')->index('user_id');
             $table->string('image_url');
-            $table->string('title');
             $table->text('caption');
             $table->timestamps();
         });

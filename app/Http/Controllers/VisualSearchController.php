@@ -10,7 +10,6 @@ use App\Product;
 
 class VisualSearchController extends Controller
 {
-    
     public function getvisualsearch(){
         $client = new \GuzzleHttp\Client();
         $request = $client->get(env('VISUALSEARCH_URL') . 'list');
@@ -19,7 +18,6 @@ class VisualSearchController extends Controller
     }
 
     public function postvisualsearch(Request $request){
-        
         $file               = request('img');
         $file_path          = $file->getPathname();
         $file_mime          = $file->getMimeType('image');
@@ -41,8 +39,7 @@ class VisualSearchController extends Controller
         ]);
        echo $response->getBody()->getContents();
     }
-    public function search(Request $request){
-        
+    public function search(Request $request){        
         $file               = request('img');
         $file_path          = $file->getPathname();
         $file_mime          = $file->getMimeType('image');

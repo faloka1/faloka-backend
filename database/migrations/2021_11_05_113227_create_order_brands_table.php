@@ -14,9 +14,10 @@ class CreateOrderBrandsTable extends Migration
     public function up()
     {
         Schema::create('order_brands', function (Blueprint $table) {
-            $table->id();
+            $table->bigIncrements('id');
             $table->unsignedInteger('order_id');
             $table->unsignedInteger('brand_id');
+            $table->integer('shipping_id');
             $table->timestamps();
         });
     }
